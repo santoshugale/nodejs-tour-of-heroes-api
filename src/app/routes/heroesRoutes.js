@@ -1,17 +1,17 @@
 'use strict';
-module.exports = function (app) {
+module.exports = function (app, db) {
 
   const heroesControler = require('../controllers/heroesController');
 
   app.route('')
-    .get(heroesControler.getWelcomeMessage);
-  app.route('/heroes')
-    .get(heroesControler.getHeroes)
-    .post(heroesControler.addHero);
+    .get((req, res) => heroesControler.getWelcomeMessage(req, res, db))
 
+  app.route('/heroes')
+    .get((req, res) => heroesControler.getHeroes(req, res, db))
+    .post((req, res) => heroesControler.addHero(req, res, db));
 
   app.route('/hero/:id')
-    .get(heroesControler.getHero)
-    .put(heroesControler.updateHero)
-    .delete(heroesControler.deleteHero);
+    .get((req, res) => heroesControler.getHero(req, res, db))
+    .put((req, res) => heroesControler.updateHero(req, res, db))
+    .delete((req, res) => heroesControler.deleteHero(req, res, db));
 };
