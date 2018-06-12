@@ -8,10 +8,10 @@ module.exports = function (app, db) {
 
   app.route('/heroes')
     .get((req, res) => heroesControler.getHeroes(req, res, db))
+    .put((req, res) => heroesControler.updateHero(req, res, db))
     .post((req, res) => heroesControler.addHero(req, res, db));
 
   app.route('/hero/:id')
     .get((req, res) => heroesControler.getHero(req, res, db))
-    .put((req, res) => heroesControler.updateHero(req, res, db))
     .delete((req, res) => heroesControler.deleteHero(req, res, db));
 };

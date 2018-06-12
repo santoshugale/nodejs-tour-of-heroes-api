@@ -2,8 +2,11 @@
 
 const util = require('util')
 
+exports.getWelcomeMessage = function (req, res, db) {
+    res.status(200).send('welcome to tour of heroes web api using node js');
+}
+
 exports.getHeroes = function (req, res, db) {
-    this.heroes = '';
     db.collection('heroes')
         .find()
         .toArray((error, result) => {
@@ -13,13 +16,26 @@ exports.getHeroes = function (req, res, db) {
         });
 }
 
-exports.getWelcomeMessage = function (req, res, db) {
-    res.status(200).send('welcome to tour of heroes web api using node js');
-}
-
 exports.getHero = function (req, res, db) {
     let id = req.params.id;
-    res.status(200).send('');
+    db.collection('heroes')
+        .find()
+        .toArray((error, document) => {
+            if (error) res.send({ 'error': error });
+            else {
+                let hero = document.find(heroObj => heroObj._id = id);
+                res.status(200).send(hero);
+            }
+        });
+
+    // TODO: use the following code
+    // db.collection('heroes').find({ _id: id }).toArray((err, document) => {
+    //     if (err) throw err;
+    //     else {
+    //         console.log(document);
+    //         res.status(200).send(document);
+    //     }
+    // });
 }
 
 exports.addHero = function (req, res, db) {
@@ -45,9 +61,7 @@ exports.addHero = function (req, res, db) {
 }
 
 exports.updateHero = function (req, res, db) {
-    res.send('update Hero');
 }
 
 exports.deleteHero = function (req, res, db) {
-    res.send('delete Hero');
 }
