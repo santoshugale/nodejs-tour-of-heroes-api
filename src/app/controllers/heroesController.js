@@ -49,6 +49,13 @@ exports.addHero = function (req, res, db) {
 }
 
 exports.updateHero = function (req, res, db) {
+    let hero = req.body;
+    db.collection('heroes')
+        .update({ _id: +hero.id }, { $set: { name: hero.name, age: hero.age } },
+            (err, response) => {
+                if (err) throw err;
+                res.send(response);
+            });
 }
 
 exports.deleteHero = function (req, res, db) {
