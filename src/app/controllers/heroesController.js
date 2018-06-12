@@ -1,6 +1,6 @@
 'use strict';
 
-const util = require('util')
+// const util = require('util')
 
 exports.getWelcomeMessage = function (req, res, db) {
     res.status(200).send('welcome to tour of heroes web api using node js');
@@ -17,32 +17,29 @@ exports.getHeroes = function (req, res, db) {
 }
 
 exports.getHero = function (req, res, db) {
-    db.collection('heroes').findOne({ _id: +req.params.id }, (err, document) => {
-        if (err) throw err;
-        else {
-            console.log(document);
-            res.status(200).send(document);
-        }
-    });
+    db.collection('heroes')
+        .findOne({ _id: +req.params.id }, (error, document) => {
+            if (error) throw err;
+            else {
+                console.log(document);
+                res.status(200).send(document);
+            }
+        });
 }
 
 exports.addHero = function (req, res, db) {
     let name = req.body.name;
     let age = req.body.age;
-    console.log(util.inspect(req.body, false));
     db.collection('counters')
         .findAndModify({ 'name': 'heroid' }, [], { '$inc': { 'seq': 1 } }, { 'new': true },
             (err, doc) => {
                 if (err) throw err;
                 else {
-                    db.collection('heroes').insert({
-                        '_id': doc.value.seq,
-                        'name': name,
-                        'age': age
-                    }, (err, result) => {
-                        if (err) throw err;
-                        res.status(200).send();
-                    });
+                    db.collection('heroes')
+                        .insert({ '_id': doc.value.seq, 'name': name, 'age': age }, (err, result) => {
+                            if (err) throw err;
+                            res.status(200).send(result);
+                        });
                 }
             }
         );
@@ -51,16 +48,16 @@ exports.addHero = function (req, res, db) {
 exports.updateHero = function (req, res, db) {
     let hero = req.body;
     db.collection('heroes')
-        .update({ _id: +hero.id }, { $set: { name: hero.name, age: hero.age } },
-            (err, response) => {
-                if (err) throw err;
-                res.send(response);
-            });
+        .update({ _id: +hero.id }, { $set: { name: hero.name, age: hero.age } }, (err, response) => {
+            if (err) throw err;
+            res.send(response);
+        });
 }
 
 exports.deleteHero = function (req, res, db) {
-    db.collection('heroes').deleteOne({ _id: +req.params.id }, (err, response) => {
-        if (err) throw err;
-        res.send(response);
-    });
+    db.collection('heroes')
+        .deleteOne({ _id: +req.params.id }, (err, response) => {
+            if (err) throw err;
+            res.send(response);
+        });
 }
