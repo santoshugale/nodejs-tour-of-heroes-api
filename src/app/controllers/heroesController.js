@@ -17,25 +17,13 @@ exports.getHeroes = function (req, res, db) {
 }
 
 exports.getHero = function (req, res, db) {
-    let id = req.params.id;
-    db.collection('heroes')
-        .find()
-        .toArray((error, document) => {
-            if (error) res.send({ 'error': error });
-            else {
-                let hero = document.find(heroObj => heroObj._id = id);
-                res.status(200).send(hero);
-            }
-        });
-
-    // TODO: use the following code
-    // db.collection('heroes').find({ _id: id }).toArray((err, document) => {
-    //     if (err) throw err;
-    //     else {
-    //         console.log(document);
-    //         res.status(200).send(document);
-    //     }
-    // });
+    db.collection('heroes').findOne({ _id: +req.params.id }, (err, document) => {
+        if (err) throw err;
+        else {
+            console.log(document);
+            res.status(200).send(document);
+        }
+    });
 }
 
 exports.addHero = function (req, res, db) {
