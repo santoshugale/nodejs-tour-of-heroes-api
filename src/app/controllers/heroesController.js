@@ -52,4 +52,8 @@ exports.updateHero = function (req, res, db) {
 }
 
 exports.deleteHero = function (req, res, db) {
+    db.collection('heroes').deleteOne({ _id: +req.params.id }, (err, response) => {
+        if (err) throw err;
+        res.send(response);
+    });
 }
