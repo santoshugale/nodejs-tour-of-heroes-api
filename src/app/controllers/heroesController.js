@@ -3,7 +3,7 @@
 // const util = require('util')
 
 exports.getWelcomeMessage = function (req, res, db) {
-    res.status(200).send('welcome to tour of heroes web api using node js');
+    res.status(200).send('welcome to tour of heroes web api using node js, please login');
 }
 
 exports.getHeroes = function (req, res, db) {
@@ -21,7 +21,6 @@ exports.getHero = function (req, res, db) {
         .findOne({ _id: +req.params.id }, (error, document) => {
             if (error) throw err;
             else {
-                console.log(document);
                 res.status(200).send(document);
             }
         });
