@@ -17,6 +17,8 @@ exports.getHeroes = function (req, res, db) {
 }
 
 exports.getHero = function (req, res, db) {
+    // for url like /sample/2?color=red 
+    // to get color use req.query.color and to get the 2 use req.params.id?
     db.collection('heroes')
         .findOne({ _id: +req.params.id }, (error, document) => {
             if (error) throw err;

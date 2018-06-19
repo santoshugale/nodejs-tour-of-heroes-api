@@ -9,7 +9,5 @@ module.exports = function (app, db) {
 
     app.route('/login')
         .post((req, res) => usersControler.login(req, res, db))
-
-    app.route('/logout')
-        .put((req, res) => heroesControler.logout(req, res, db))
+        
 };
