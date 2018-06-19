@@ -21,7 +21,6 @@ module.exports = function (app, db) {
 
 function authenticateRequest(req, res, next) {
   var token = req.body.token || req.query.token || req.headers['token'];
-  console.log(token);
   if (!token) {
     return res.status(403).send({ success: false, message: 'No token provided.' });
   } else {
